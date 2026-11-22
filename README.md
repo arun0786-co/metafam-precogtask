@@ -2,7 +2,7 @@
 
 my solution to the precog (iiit hyderabad) recruitment task on **metafam**, a made up
 family tree stored as a knowledge graph: triples like `olivia0 sisterOf selina10`.
-13,821 training triples and 590 test triples, 28 relation types, about 50 separate families.
+13,821 training triples and 590 test triples, 1,316 people, 28 relation types, about 50 separate families.
 done in february 2026.
 
 the full write-up with plots is `Knowledge Graph Analysis and Link Prediction Report.pdf`.
@@ -16,8 +16,11 @@ the full write-up with plots is `Knowledge Graph Analysis and Link Prediction Re
   26 to 27 people each, shallow in width but several generations deep.
 - **family clusters**: louvain and girvan-newman community detection on the largest family,
   and how the communities line up with real family units.
-- **rule mining**: horn clause rules (e.g. a sister of my mother is my aunt), inverse rules
-  (fatherOf / sonOf) and multi hop rules, with support and confidence.
+- **rule mining**: a small amie style miner for rules over paths of 2, 3 and 4 relations
+  and for inverse rules, with support and confidence. some hold every time, e.g.
+  `sisterOf(A, B) ∧ daughterOf(B, C) → daughterOf(A, C)` (518 of 518 paths). some only
+  about half the time, e.g. `nephewOf(A, B) → auntOf(B, A)` (298 of 514), because B can
+  just as well be an uncle.
 - an interactive view of the largest family (`largest_family_only.html`, made with pyvis).
 
 `notebook/linkprediction.ipynb`
